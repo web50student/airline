@@ -18,8 +18,8 @@ def flight(request, flight_id):
         raise Http404("Flight does not exist")
     context = {
         "flight": flight,
-        "non_passengers": flight.passengers.all(),
-        "passengers": Passenger.objects.exclude(flights=flight).all()
+        "passengers": flight.passengers.all(),
+        "non_passengers": Passenger.objects.exclude(flights=flight).all()
     }
     return render(request, "flights/flight.html", context)
 
@@ -36,4 +36,3 @@ def book(request, flight_id):
         return render(request, "flights/error.html", {"message": "No passenger."})
     passenger.flights.add(flight)
     return HttpResponseRedirect(reverse("flight", args=(flight_id,)))
-
